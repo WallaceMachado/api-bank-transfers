@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Product struct {
+type Account struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
 	Name      string    `json:"name"`
 	Cpf       string    `json:"cpf"`

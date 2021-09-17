@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/wallacemachado/api-bank-transfers/config"
+	"github.com/wallacemachado/api-bank-transfers/database/migrations"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -31,6 +32,8 @@ func StartDatabase() {
 	db = database
 
 	database.DB()
+
+	migrations.RunAutoMigrations(db)
 
 	fmt.Println("Connect to Database!")
 
