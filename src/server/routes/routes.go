@@ -1,9 +1,8 @@
 package routes
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/wallacemachado/api-bank-transfers/src/controllers"
 )
 
 func Config(router *gin.Engine) *gin.Engine {
@@ -12,9 +11,7 @@ func Config(router *gin.Engine) *gin.Engine {
 	{
 		accountRouter := main.Group("accounts")
 		{
-			accountRouter.GET("/", func(c *gin.Context) {
-				c.JSON(http.StatusOK, gin.H{"message": "Get Accounts"})
-			})
+			accountRouter.POST("/", controllers.CreateAccount)
 		}
 	}
 
