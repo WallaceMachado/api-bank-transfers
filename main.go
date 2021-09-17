@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/wallacemachado/api-bank-transfers/config"
-	"github.com/wallacemachado/api-bank-transfers/database"
-	"github.com/wallacemachado/api-bank-transfers/server"
+	"github.com/wallacemachado/api-bank-transfers/src/config"
+	"github.com/wallacemachado/api-bank-transfers/src/database"
+	"github.com/wallacemachado/api-bank-transfers/src/server"
 )
 
 func main() {

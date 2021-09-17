@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/wallacemachado/api-bank-transfers/config"
-	"github.com/wallacemachado/api-bank-transfers/database/migrations"
+	"github.com/wallacemachado/api-bank-transfers/src/config"
+	"github.com/wallacemachado/api-bank-transfers/src/database/migrations"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
