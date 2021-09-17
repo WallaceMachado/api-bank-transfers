@@ -1,11 +1,11 @@
 package server
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/config"
+	"github.com/wallacemachado/api-bank-transfers/server/routes"
 )
 
 type Server struct {
@@ -21,9 +21,10 @@ func NewServer() Server {
 }
 
 func (s *Server) Run() {
-	fmt.Println(s.port)
+	router := routes.Config(s.server)
+
 	log.Printf("Server running at port: %s", s.port)
 
-	gin.Default().Run(":" + s.port)
+	log.Fatal(router.Run(":" + s.port))
 
 }
