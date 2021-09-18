@@ -5,10 +5,9 @@ import (
 
 	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
-	"github.com/wallacemachado/api-bank-transfers/src/responses"
 )
 
-func Create(account models.Account) (uint, error) {
+func Create(account models.Account) (string, error) {
 	repository := database.GetDatabase()
 	err := repository.Create(&account).Error
 
@@ -19,10 +18,10 @@ func Create(account models.Account) (uint, error) {
 	return account.ID, nil
 }
 
-func GetAll() ([]responses.ResponseGetAccount, error) {
+func GetAll() ([]models.Account, error) {
 	repository := database.GetDatabase()
 
-	var accounts []responses.ResponseGetAccount
+	var accounts []models.Account
 
 	err := repository.Table("accounts").Select("id", "name", "cpf", "balance", "created_at").Scan(&accounts).Error
 

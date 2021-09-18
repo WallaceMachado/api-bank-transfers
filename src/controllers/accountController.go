@@ -22,6 +22,14 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
+	if err = account.Prepare(); err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+
+		return
+	}
+
 	result, err := services.CreateAccount(account)
 	if err != nil {
 		c.JSON(400, gin.H{
