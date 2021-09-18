@@ -15,3 +15,15 @@ func ListAllAccounts() ([]responses.ResponseGetAccount, error) {
 
 	return repositories.GetAll()
 }
+
+func GetBalance(id int) (float32, error) {
+
+	account, err := repositories.GetAccountById(id)
+	if err != nil {
+		return 0, err
+	}
+
+	balance := account.Balance
+
+	return balance, nil
+}

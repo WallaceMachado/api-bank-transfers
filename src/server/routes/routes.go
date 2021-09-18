@@ -13,6 +13,7 @@ func Config(router *gin.Engine) *gin.Engine {
 		{
 			accountRouter.POST("/", controllers.CreateAccount)
 			accountRouter.GET("/", controllers.ListAllAccounts)
+			accountRouter.GET("/:account_id/balance", controllers.GetBalance)
 
 		}
 	}

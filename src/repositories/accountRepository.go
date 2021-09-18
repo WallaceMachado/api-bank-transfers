@@ -30,7 +30,21 @@ func GetAll() ([]responses.ResponseGetAccount, error) {
 		return nil, err
 	}
 
-	fmt.Println(accounts)
-
 	return accounts, nil
+}
+
+func GetAccountById(id int) (models.Account, error) {
+	repository := database.GetDatabase()
+
+	var account models.Account
+
+	err := repository.First(&account, id).Error
+
+	if err != nil {
+		return models.Account{}, err
+	}
+
+	fmt.Println(account)
+
+	return account, nil
 }
