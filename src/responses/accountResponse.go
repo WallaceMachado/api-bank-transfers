@@ -1,12 +1,15 @@
-package models
+package responses
 
 import "time"
 
-type Account struct {
-	ID        uint      `json:"id,omitempty" gorm:"primaryKey"`
+type ResponseCreateAccount struct {
+	ID uint `json:"id"`
+}
+
+type ResponseGetAccount struct {
+	ID        uint      `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`
 	Cpf       string    `json:"cpf,omitempty"`
-	Secret    string    `json:"secret,omitempty"`
 	Balance   float32   `json:"balance,omitempty"`
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 }

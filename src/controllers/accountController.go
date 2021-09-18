@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/wallacemachado/api-bank-transfers/src/controllers/responses"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
+	"github.com/wallacemachado/api-bank-transfers/src/responses"
 	"github.com/wallacemachado/api-bank-transfers/src/services"
 )
 
@@ -34,4 +34,17 @@ func CreateAccount(c *gin.Context) {
 	resp.ID = result
 
 	c.JSON(http.StatusCreated, resp)
+}
+
+func ListAllAccounts(c *gin.Context) {
+
+	result, err := services.ListAllAccounts()
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
 }

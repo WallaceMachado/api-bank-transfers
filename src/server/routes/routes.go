@@ -12,6 +12,8 @@ func Config(router *gin.Engine) *gin.Engine {
 		accountRouter := main.Group("accounts")
 		{
 			accountRouter.POST("/", controllers.CreateAccount)
+			accountRouter.GET("/", controllers.ListAllAccounts)
+
 		}
 	}
 
