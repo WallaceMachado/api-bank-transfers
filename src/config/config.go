@@ -8,15 +8,16 @@ import (
 )
 
 var (
-	ServerHost string
-	ServerPort string
-	DBHost     string
-	DBPort     string
-	DBSslMode  string
-	DBUser     string
-	DBName     string
-	DBPass     string
-	DBType     string
+	ServerHost   string
+	ServerPort   string
+	DBHost       string
+	DBPort       string
+	DBSslMode    string
+	DBUser       string
+	DBName       string
+	DBPass       string
+	DBType       string
+	SecretKeyJwt string
 )
 
 func Init() {
@@ -37,5 +38,6 @@ func Init() {
 	DBName = os.Getenv("DB_NAME")
 	DBPass = os.Getenv("DB_PASS")
 	DBType = os.Getenv("DB_TYPE")
+	SecretKeyJwt = os.Getenv("SECRET_KEY_JWT")
 
 }

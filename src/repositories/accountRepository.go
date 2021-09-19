@@ -47,3 +47,19 @@ func GetAccountById(id int) (models.Account, error) {
 
 	return account, nil
 }
+
+func GetAccountByCpf(cpf string) (models.Account, error) {
+	repository := database.GetDatabase()
+
+	var account models.Account
+
+	err := repository.Where("cpf =?", cpf).First(&account).Error
+
+	if err != nil {
+		return models.Account{}, err
+	}
+
+	fmt.Println(account)
+
+	return account, nil
+}

@@ -16,6 +16,12 @@ func Config(router *gin.Engine) *gin.Engine {
 			accountRouter.GET("/:account_id/balance", controllers.GetBalance)
 
 		}
+
+		loginRouter := main.Group("login")
+		{
+			loginRouter.POST("/", controllers.Login)
+
+		}
 	}
 
 	return router

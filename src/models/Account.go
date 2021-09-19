@@ -1,34 +1,47 @@
 package models
 
 import (
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
-	"github.com/wallacemachado/api-bank-transfers/src/utils"
+	utils "github.com/wallacemachado/api-bank-transfers/src/utils/security"
 )
 
 type Account struct {
 	ID        string    `json:"id" gorm:"ype:uuid;primaryKeyt" valid:"notnull,uuid"`
 	Name      string    `json:"name" valid:"notnull"`
 	Cpf       string    `json:"cpf" gorm:"type:varchar(11);unique" valid:"notnull"`
-	Secret    string    `json:"-" valid:"notnull"`
+	Secret    string    `json:"secret,omitempty" valid:"notnull"`
 	Balance   float64   `json:"balance" valid:"notnull,float"`
 	CreatedAt time.Time `json:"createdAt" valid:"-"`
 }
 
-func (Account *Account) Prepare() error {
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
 
-	secret, err := utils.Hash(Account.Secret)
+func (account *Account) Prepare() error {
+
+	fmt.Println(account)
+
+	if len(account.Secret) < 6 {
+		fmt.Println(account.Secret)
+		return errors.New("The secret must be at least 6 characters.")
+	}
+
+	secret, err := utils.Hash(account.Secret)
 
 	if err != nil {
 		return err
 	}
 
-	Account.ID = uuid.NewV4().String()
-	Account.Secret = string(secret)
+	account.ID = uuid.NewV4().String()
+	account.Secret = string(secret)
 
-	err = Account.validate()
+	err = account.validate()
 
 	if err != nil {
 		return err
@@ -38,9 +51,9 @@ func (Account *Account) Prepare() error {
 
 }
 
-func (Account *Account) validate() error {
+func (account *Account) validate() error {
 
-	_, err := govalidator.ValidateStruct(Account)
+	_, err := govalidator.ValidateStruct(account)
 
 	if err != nil {
 		return err
