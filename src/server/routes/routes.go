@@ -27,6 +27,7 @@ func Config(router *gin.Engine) *gin.Engine {
 		transferRouter := main.Group("transfers", middlewares.Auth())
 		{
 			transferRouter.POST("/", controllers.CreateTransfer)
+			transferRouter.GET("/", controllers.ListAllTransfersByAccount)
 
 		}
 	}

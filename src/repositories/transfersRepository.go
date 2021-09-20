@@ -15,3 +15,17 @@ func SaveTransfer(transfer models.Transfer) (models.Transfer, error) {
 
 	return transfer, nil
 }
+
+func GetTransfersById(id string) ([]models.Transfer, error) {
+	repository := database.GetDatabase()
+
+	var transfers []models.Transfer
+
+	err := repository.Where("account_origin_id = ? OR Account_destination_id = ?", id, id).Find(&transfers).Error
+
+	if err != nil {
+		return []models.Transfer{}, err
+	}
+
+	return transfers, nil
+}

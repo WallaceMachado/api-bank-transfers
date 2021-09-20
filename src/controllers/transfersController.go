@@ -24,7 +24,7 @@ func CreateTransfer(c *gin.Context) {
 
 	transfer.Account_origin_id = account_origin_id.(string)
 
-	if err = transfer.Validate(); err != nil {
+	if err = transfer.Prepare(); err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
@@ -42,4 +42,21 @@ func CreateTransfer(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, result)
+}
+
+func ListAllTransfersByAccount(c *gin.Context) {
+	id, _ := c.Get("accountId")
+
+	IdString := id.(string)
+
+	result, err := services.ListAllTransfersByAccount(IdString)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
 }

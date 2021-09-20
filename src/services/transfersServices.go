@@ -5,6 +5,7 @@ import (
 
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
+	"github.com/wallacemachado/api-bank-transfers/src/responses"
 )
 
 func CreateTransfer(transfer models.Transfer) (models.Transfer, error) {
@@ -47,5 +48,27 @@ func CreateTransfer(transfer models.Transfer) (models.Transfer, error) {
 	}
 
 	return newTransfer, nil
+
+}
+
+func ListAllTransfersByAccount(id string) (responses.ResponseTransfersByAccount, error) {
+
+	transfers, err := repositories.GetTransfersById(id)
+	if err != nil {
+		return responses.ResponseTransfersByAccount{}, err
+	}
+
+	var transferResponse responses.ResponseTransfersByAccount
+
+	for _, t := range transfers {
+		if t.Account_origin_id == id {
+			transferResponse.TranfersSent = append(transferResponse.TranfersSent, t)
+		} else {
+
+			transferResponse.TranfersReceived = append(transferResponse.TranfersReceived, t)
+		}
+	}
+
+	return transferResponse, nil
 
 }
