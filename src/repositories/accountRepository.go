@@ -1,24 +1,22 @@
 package repositories
 
 import (
-	"fmt"
-
 	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 )
 
-func Create(account models.Account) (string, error) {
+func CreateAccount(account models.Account) (string, error) {
 	repository := database.GetDatabase()
 	err := repository.Create(&account).Error
 
 	if err != nil {
-		return account.ID, err
+		return "", err
 	}
 
 	return account.ID, nil
 }
 
-func GetAll() ([]models.Account, error) {
+func GetAllAccounts() ([]models.Account, error) {
 	repository := database.GetDatabase()
 
 	var accounts []models.Account
@@ -32,18 +30,16 @@ func GetAll() ([]models.Account, error) {
 	return accounts, nil
 }
 
-func GetAccountById(id int) (models.Account, error) {
+func GetAccountById(id string) (models.Account, error) {
 	repository := database.GetDatabase()
 
 	var account models.Account
 
-	err := repository.First(&account, id).Error
+	err := repository.Where("id =?", id).First(&account).Error
 
 	if err != nil {
 		return models.Account{}, err
 	}
-
-	fmt.Println(account)
 
 	return account, nil
 }
@@ -59,7 +55,17 @@ func GetAccountByCpf(cpf string) (models.Account, error) {
 		return models.Account{}, err
 	}
 
-	fmt.Println(account)
+	return account, nil
+}
+
+func UpdateBalanceAccount(account models.Account) (models.Account, error) {
+	repository := database.GetDatabase()
+
+	err := repository.Save(&account).Error
+
+	if err != nil {
+		return models.Account{}, err
+	}
 
 	return account, nil
 }

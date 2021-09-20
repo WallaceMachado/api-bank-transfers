@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
@@ -60,9 +59,8 @@ func ListAllAccounts(c *gin.Context) {
 
 func GetBalance(c *gin.Context) {
 	id := c.Param("account_id")
-	newid, err := strconv.Atoi(id)
 
-	result, err := services.GetBalance(newid)
+	result, err := services.GetBalance(id)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),

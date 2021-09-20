@@ -50,7 +50,7 @@ func ValidateToken(c *gin.Context) (string, error) {
 	})
 
 	if err != nil {
-		fmt.Println("err", err)
+
 		return "", err
 	}
 

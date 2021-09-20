@@ -25,8 +25,6 @@ func init() {
 
 func (account *Account) Prepare() error {
 
-	fmt.Println(account)
-
 	if len(account.Secret) < 6 {
 		fmt.Println(account.Secret)
 		return errors.New("The secret must be at least 6 characters.")

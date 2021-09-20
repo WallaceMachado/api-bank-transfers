@@ -7,15 +7,15 @@ import (
 
 func CreateAccount(account models.Account) (string, error) {
 
-	return repositories.Create(account)
+	return repositories.CreateAccount(account)
 }
 
 func ListAllAccounts() ([]models.Account, error) {
 
-	return repositories.GetAll()
+	return repositories.GetAllAccounts()
 }
 
-func GetBalance(id int) (float64, error) {
+func GetBalance(id string) (float64, error) {
 
 	account, err := repositories.GetAccountById(id)
 	if err != nil {
