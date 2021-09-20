@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -42,7 +41,7 @@ func (transfer *Transfer) validate() error {
 	}
 
 	if transfer.Account_destination_id == transfer.Account_origin_id {
-		fmt.Println("trasnte", transfer)
+
 		return errors.New("Origin account cannot be equal to desttination account")
 	}
 

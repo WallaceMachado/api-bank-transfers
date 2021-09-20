@@ -1,0 +1,56 @@
+version: "3.2"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: _go.dockerfile
+      
+    image: github.com/wallacemachado/api-bank-transfers
+    container_name: api-bank-transfers
+    depends_on:
+      - db
+    environment:
+      HOST: "${HOST}"
+      PORT: "${PORT}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+      DB_USER: "${DB_USER}"
+      DB_NAME: "${DB_NAME}"
+      DB_PASS: "${DB_PASS}"
+      DB_TYPE: "${DB_TYPE}"
+      
+    command: ["go", "run", "main.go"]  
+    volumes:
+      - .:/go/src/app
+    ports:
+      - "${PORT}:${PORT}"
+    networks:
+      - api-bank-transfers-network
+
+  db:
+    build:
+      context: .
+      dockerfile: _postgres.dockerfile
+    image: github.com/wallacemachado/api-bank-transfers-db
+    container_name: api-bank-transfers-db
+    restart: unless-stopped
+    
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      PGDATA: /var/lib/postgresql/data/api-bank-transfers
+    volumes:
+      - api-bank-transfers:/var/lib/postgresql/data
+    networks:
+      - api-bank-transfers-network
+
+networks:
+  api-bank-transfers-network:
+    driver: bridge
+
+volumes:
+  api-bank-transfers:
