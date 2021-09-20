@@ -8,4 +8,5 @@ import (
 
 func RunAutoMigrations(db *gorm.DB) {
 	db.AutoMigrate(&models.Account{})
+	db.AutoMigrate(&models.Transfer{})
 }

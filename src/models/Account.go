@@ -11,7 +11,7 @@ import (
 )
 
 type Account struct {
-	ID        string    `json:"id" gorm:"ype:uuid;primaryKeyt" valid:"notnull,uuid"`
+	ID        string    `json:"id" gorm:"type:uuid;primaryKey" valid:"notnull,uuid"`
 	Name      string    `json:"name" valid:"notnull"`
 	Cpf       string    `json:"cpf" gorm:"type:varchar(11);unique" valid:"notnull"`
 	Secret    string    `json:"secret,omitempty" valid:"notnull"`
