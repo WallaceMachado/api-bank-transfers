@@ -8,6 +8,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
 	utils "github.com/wallacemachado/api-bank-transfers/src/utils/security"
+	"github.com/wallacemachado/api-bank-transfers/src/utils/validation"
 )
 
 type Account struct {
@@ -39,6 +40,10 @@ func (account *Account) Prepare() error {
 	account.ID = uuid.NewV4().String()
 	account.Secret = string(secret)
 
+	account.Cpf = validation.Clean(account.Cpf)
+
+	fmt.Println("cpf: ", account.Cpf)
+
 	err = account.validate()
 
 	if err != nil {
@@ -51,7 +56,11 @@ func (account *Account) Prepare() error {
 
 func (account *Account) validate() error {
 
-	_, err := govalidator.ValidateStruct(account)
+	err := validation.ValidateCPF(account.Cpf)
+	if err != nil {
+		return errors.New("invalid CPF")
+	}
+	_, err = govalidator.ValidateStruct(account)
 
 	if err != nil {
 		return err
