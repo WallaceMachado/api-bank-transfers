@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/controllers"
+	"github.com/wallacemachado/api-bank-transfers/src/server/middlewares"
 )
 
 func Config(router *gin.Engine) *gin.Engine {
@@ -20,6 +21,12 @@ func Config(router *gin.Engine) *gin.Engine {
 		loginRouter := main.Group("login")
 		{
 			loginRouter.POST("/", controllers.Login)
+
+		}
+
+		transferRouter := main.Group("transfers", middlewares.Auth())
+		{
+			transferRouter.POST("/", controllers.CreateTransfer)
 
 		}
 	}
