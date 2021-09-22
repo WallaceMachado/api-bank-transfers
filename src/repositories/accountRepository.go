@@ -8,7 +8,7 @@ import (
 type AccountRepository struct {
 }
 
-func (repository AccountRepository) CreateAccount(account models.Account) (string, error) {
+func (repository AccountRepository) CreateAccount(account *models.Account) (string, error) {
 	db := database.GetDatabase()
 	err := db.Create(&account).Error
 
@@ -54,7 +54,7 @@ func (repository AccountRepository) GetAccountByCpf(cpf string) (models.Account,
 
 	err := db.Where("cpf =?", cpf).First(&account).Error
 
-	if err != nil {
+	if err != nil && err.Error() != "record not found" {
 		return models.Account{}, err
 	}
 

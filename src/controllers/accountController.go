@@ -7,13 +7,14 @@ import (
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	"github.com/wallacemachado/api-bank-transfers/src/responses"
-	"github.com/wallacemachado/api-bank-transfers/src/services"
+	services "github.com/wallacemachado/api-bank-transfers/src/services/account"
+	"github.com/wallacemachado/api-bank-transfers/src/utils/dtos"
 )
 
 func CreateAccount(c *gin.Context) {
-	var account models.Account
+	var createAccountDTO dtos.CreateAccountDTO
 
-	err := c.ShouldBindJSON(&account)
+	err := c.ShouldBindJSON(&createAccountDTO)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -22,13 +23,7 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-	if err = account.Prepare(); err != nil {
-		c.JSON(400, gin.H{
-			"error": err.Error(),
-		})
-
-		return
-	}
+	account, err := models.NewAccount(createAccountDTO.Name, createAccountDTO.Cpf, createAccountDTO.Secret, createAccountDTO.Balance)
 
 	repository := &repositories.AccountRepository{}
 

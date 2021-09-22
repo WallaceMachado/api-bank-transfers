@@ -24,6 +24,23 @@ func init() {
 	govalidator.SetFieldsRequiredByDefault(true)
 }
 
+func NewAccount(name string, cpf string, secret string, balance float64) (*Account, error) {
+	account := &Account{
+		Name:    name,
+		Cpf:     cpf,
+		Secret:  secret,
+		Balance: balance,
+	}
+
+	err := account.Prepare()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return account, nil
+}
+
 func (account *Account) Prepare() error {
 
 	if len(account.Secret) < 6 {

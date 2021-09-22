@@ -3,7 +3,10 @@ package database
 import (
 	"fmt"
 	"log"
+	"path/filepath"
+	"runtime"
 
+	"github.com/joho/godotenv"
 	"github.com/wallacemachado/api-bank-transfers/src/config"
 	"github.com/wallacemachado/api-bank-transfers/src/database/migrations"
 
@@ -13,19 +16,33 @@ import (
 
 var db *gorm.DB
 
-func StartDatabase() {
+func init() {
+	_, b, _, _ := runtime.Caller(0)
+	basepath := filepath.Dir(b)
+
+	err := godotenv.Load(basepath + "/../../.env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env files")
+	}
+}
+
+func StartDatabase(dbName string) *gorm.DB {
+	config.Init()
+	fmt.Println("Could not connect to the Postgres Database")
 	DbHost := config.DBHost
 	DbPort := config.DBPort
 	DbUser := config.DBUser
-	DbName := config.DBName
+	DbName := dbName
 	DbSSlMode := config.DBSslMode
 	DbPass := config.DBPass
 
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, DbSSlMode, DbPass)
-	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
+	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	fmt.Println("Could not connect to the Postgres Database1")
 	if err != nil {
-		fmt.Println("Could not connect to the Postgres Database")
+		fmt.Println("Could not connect to the Postgres Database2")
 		log.Fatal("Error: ", err)
 	}
 
@@ -35,7 +52,13 @@ func StartDatabase() {
 
 	migrations.RunAutoMigrations(db)
 
+	if dbName != "test" {
+		db.Exec("CREATE DATABASE test")
+	}
+
 	fmt.Println("Connect to Database!")
+
+	return db
 
 }
 

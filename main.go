@@ -9,7 +9,7 @@ import (
 func main() {
 	config.Init()
 
-	database.StartDatabase()
+	database.StartDatabase(config.DBName)
 
 	server := server.NewServer()
 	server.Run()
