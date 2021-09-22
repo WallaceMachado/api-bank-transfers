@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
-	"github.com/wallacemachado/api-bank-transfers/src/services"
+	services "github.com/wallacemachado/api-bank-transfers/src/services/login"
 )
 
 func Login(c *gin.Context) {
@@ -20,8 +20,9 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if err = login.Validate(); err != nil {
-		c.JSON(400, gin.H{
+	newLogin, err := models.NewLogin(login.Cpf, login.Secret)
+	if err != nil {
+		c.JSON(401, gin.H{
 			"error": err.Error(),
 		})
 
@@ -31,7 +32,7 @@ func Login(c *gin.Context) {
 	repository := &repositories.AccountRepository{}
 
 	service := services.NewLoginService(repository)
-	result, err := service.Login(login)
+	result, err := service.Login(newLogin)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": err.Error(),

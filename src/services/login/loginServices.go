@@ -18,7 +18,7 @@ func NewLoginService(repo interfaces.IAccountRepository) *LoginService {
 	}
 }
 
-func (s *LoginService) Login(login models.Login) (responses.ResponseLogin, error) {
+func (s *LoginService) Login(login *models.Login) (responses.ResponseLogin, error) {
 
 	account, err := s.repository.GetAccountByCpf(login.Cpf)
 	if err != nil {

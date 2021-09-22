@@ -18,7 +18,7 @@ func TestCreateAccount(t *testing.T) {
 	db := database.GetDatabase()
 	defer database.CloseConn()
 
-	account, err := models.NewAccount("testee", "27714197005", "123456", 1000)
+	account, err := models.NewAccount("teste", "27714197005", "123456", 1000)
 
 	repository := &repositories.AccountRepository{}
 

@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -43,9 +42,9 @@ func NewAccount(name string, cpf string, secret string, balance float64) (*Accou
 
 func (account *Account) Prepare() error {
 
-	if len(account.Secret) < 6 {
-		fmt.Println(account.Secret)
-		return errors.New("The secret must be at least 6 characters.")
+	if len(account.Secret) < 6 || len(account.Secret) > 12 {
+
+		return errors.New("The secret must be between 6 and 12 characters.")
 	}
 
 	secret, err := utils.Hash(account.Secret)
