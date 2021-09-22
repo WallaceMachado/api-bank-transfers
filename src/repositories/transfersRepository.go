@@ -5,9 +5,12 @@ import (
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 )
 
-func SaveTransfer(transfer models.Transfer) (models.Transfer, error) {
-	repository := database.GetDatabase()
-	err := repository.Create(&transfer).Error
+type TransferRepository struct {
+}
+
+func (repository TransferRepository) SaveTransfer(transfer models.Transfer) (models.Transfer, error) {
+	db := database.GetDatabase()
+	err := db.Create(&transfer).Error
 
 	if err != nil {
 		return transfer, err
@@ -16,12 +19,12 @@ func SaveTransfer(transfer models.Transfer) (models.Transfer, error) {
 	return transfer, nil
 }
 
-func GetTransfersById(id string) ([]models.Transfer, error) {
-	repository := database.GetDatabase()
+func (repository TransferRepository) GetTransfersById(id string) ([]models.Transfer, error) {
+	db := database.GetDatabase()
 
 	var transfers []models.Transfer
 
-	err := repository.Where("account_origin_id = ? OR Account_destination_id = ?", id, id).Find(&transfers).Error
+	err := db.Where("account_origin_id = ? OR Account_destination_id = ?", id, id).Find(&transfers).Error
 
 	if err != nil {
 		return []models.Transfer{}, err

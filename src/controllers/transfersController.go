@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
+	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	"github.com/wallacemachado/api-bank-transfers/src/services"
 )
 
@@ -32,7 +33,12 @@ func CreateTransfer(c *gin.Context) {
 		return
 	}
 
-	result, err := services.CreateTransfer(transfer)
+	repoAcc := &repositories.AccountRepository{}
+	repoTransfer := &repositories.TransferRepository{}
+
+	service := services.NewTransferService(repoAcc, repoTransfer)
+
+	result, err := service.CreateTransfer(transfer)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -49,7 +55,12 @@ func ListAllTransfersByAccount(c *gin.Context) {
 
 	IdString := id.(string)
 
-	result, err := services.ListAllTransfersByAccount(IdString)
+	repoAcc := &repositories.AccountRepository{}
+	repoTransfer := &repositories.TransferRepository{}
+
+	service := services.NewTransferService(repoAcc, repoTransfer)
+
+	result, err := service.ListAllTransfersByAccount(IdString)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),

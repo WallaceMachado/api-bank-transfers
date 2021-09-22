@@ -2,15 +2,25 @@ package services
 
 import (
 	"github.com/wallacemachado/api-bank-transfers/src/models"
-	"github.com/wallacemachado/api-bank-transfers/src/repositories"
+	"github.com/wallacemachado/api-bank-transfers/src/repositories/interfaces"
 	"github.com/wallacemachado/api-bank-transfers/src/responses"
 	"github.com/wallacemachado/api-bank-transfers/src/utils/authentication"
 	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
 )
 
-func Login(login models.Login) (responses.ResponseLogin, error) {
+type LoginService struct {
+	repository interfaces.IAccountRepository
+}
 
-	account, err := repositories.GetAccountByCpf(login.Cpf)
+func NewLoginService(repo interfaces.IAccountRepository) *LoginService {
+	return &LoginService{
+		repository: repo,
+	}
+}
+
+func (s *LoginService) Login(login models.Login) (responses.ResponseLogin, error) {
+
+	account, err := s.repository.GetAccountByCpf(login.Cpf)
 	if err != nil {
 		return responses.ResponseLogin{}, err
 	}

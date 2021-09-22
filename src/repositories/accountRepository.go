@@ -5,9 +5,12 @@ import (
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 )
 
-func CreateAccount(account models.Account) (string, error) {
-	repository := database.GetDatabase()
-	err := repository.Create(&account).Error
+type AccountRepository struct {
+}
+
+func (repository AccountRepository) CreateAccount(account models.Account) (string, error) {
+	db := database.GetDatabase()
+	err := db.Create(&account).Error
 
 	if err != nil {
 		return "", err
@@ -16,12 +19,12 @@ func CreateAccount(account models.Account) (string, error) {
 	return account.ID, nil
 }
 
-func GetAllAccounts() ([]models.Account, error) {
-	repository := database.GetDatabase()
+func (repository AccountRepository) GetAllAccounts() ([]models.Account, error) {
+	db := database.GetDatabase()
 
 	var accounts []models.Account
 
-	err := repository.Table("accounts").Select("id", "name", "cpf", "balance", "created_at").Scan(&accounts).Error
+	err := db.Table("accounts").Select("id", "name", "cpf", "balance", "created_at").Scan(&accounts).Error
 
 	if err != nil {
 		return nil, err
@@ -30,12 +33,12 @@ func GetAllAccounts() ([]models.Account, error) {
 	return accounts, nil
 }
 
-func GetAccountById(id string) (models.Account, error) {
-	repository := database.GetDatabase()
+func (repository AccountRepository) GetAccountById(id string) (models.Account, error) {
+	db := database.GetDatabase()
 
 	var account models.Account
 
-	err := repository.Where("id =?", id).First(&account).Error
+	err := db.Where("id =?", id).First(&account).Error
 
 	if err != nil {
 		return models.Account{}, err
@@ -44,12 +47,12 @@ func GetAccountById(id string) (models.Account, error) {
 	return account, nil
 }
 
-func GetAccountByCpf(cpf string) (models.Account, error) {
-	repository := database.GetDatabase()
+func (repository AccountRepository) GetAccountByCpf(cpf string) (models.Account, error) {
+	db := database.GetDatabase()
 
 	var account models.Account
 
-	err := repository.Where("cpf =?", cpf).First(&account).Error
+	err := db.Where("cpf =?", cpf).First(&account).Error
 
 	if err != nil {
 		return models.Account{}, err
@@ -58,10 +61,10 @@ func GetAccountByCpf(cpf string) (models.Account, error) {
 	return account, nil
 }
 
-func UpdateBalanceAccount(account models.Account) (models.Account, error) {
-	repository := database.GetDatabase()
+func (repository AccountRepository) UpdateBalanceAccount(account models.Account) (models.Account, error) {
+	db := database.GetDatabase()
 
-	err := repository.Save(&account).Error
+	err := db.Save(&account).Error
 
 	if err != nil {
 		return models.Account{}, err

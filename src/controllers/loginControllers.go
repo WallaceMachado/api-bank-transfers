@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
+	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	"github.com/wallacemachado/api-bank-transfers/src/services"
 )
 
@@ -26,7 +27,11 @@ func Login(c *gin.Context) {
 
 		return
 	}
-	result, err := services.Login(login)
+
+	repository := &repositories.AccountRepository{}
+
+	service := services.NewLoginService(repository)
+	result, err := service.Login(login)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": err.Error(),

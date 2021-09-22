@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
+	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	"github.com/wallacemachado/api-bank-transfers/src/responses"
 	"github.com/wallacemachado/api-bank-transfers/src/services"
 )
@@ -29,7 +30,11 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-	result, err := services.CreateAccount(account)
+	repository := &repositories.AccountRepository{}
+
+	service := services.NewAccountService(repository)
+
+	result, err := service.CreateAccount(account)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -46,7 +51,11 @@ func CreateAccount(c *gin.Context) {
 
 func ListAllAccounts(c *gin.Context) {
 
-	result, err := services.ListAllAccounts()
+	repository := &repositories.AccountRepository{}
+
+	service := services.NewAccountService(repository)
+
+	result, err := service.ListAllAccounts()
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -60,7 +69,11 @@ func ListAllAccounts(c *gin.Context) {
 func GetBalance(c *gin.Context) {
 	id := c.Param("account_id")
 
-	result, err := services.GetBalance(id)
+	repository := &repositories.AccountRepository{}
+
+	service := services.NewAccountService(repository)
+
+	result, err := service.GetBalance(id)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),

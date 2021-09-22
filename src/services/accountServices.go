@@ -4,12 +4,22 @@ import (
 	"errors"
 
 	"github.com/wallacemachado/api-bank-transfers/src/models"
-	"github.com/wallacemachado/api-bank-transfers/src/repositories"
+	"github.com/wallacemachado/api-bank-transfers/src/repositories/interfaces"
 )
 
-func CreateAccount(account models.Account) (string, error) {
+type AccountService struct {
+	repository interfaces.IAccountRepository
+}
 
-	account, err := repositories.GetAccountByCpf(account.Cpf)
+func NewAccountService(repo interfaces.IAccountRepository) *AccountService {
+	return &AccountService{
+		repository: repo,
+	}
+}
+
+func (s *AccountService) CreateAccount(account models.Account) (string, error) {
+
+	account, err := s.repository.GetAccountByCpf(account.Cpf)
 	if err != nil {
 		return "", errors.New("Error in cpf validation")
 	}
@@ -18,17 +28,17 @@ func CreateAccount(account models.Account) (string, error) {
 		return "", errors.New("CPF already exists")
 	}
 
-	return repositories.CreateAccount(account)
+	return s.repository.CreateAccount(account)
 }
 
-func ListAllAccounts() ([]models.Account, error) {
+func (s *AccountService) ListAllAccounts() ([]models.Account, error) {
 
-	return repositories.GetAllAccounts()
+	return s.repository.GetAllAccounts()
 }
 
-func GetBalance(id string) (float64, error) {
+func (s *AccountService) GetBalance(id string) (float64, error) {
 
-	account, err := repositories.GetAccountById(id)
+	account, err := s.repository.GetAccountById(id)
 	if err != nil {
 		return 0, err
 	}
