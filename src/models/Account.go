@@ -40,9 +40,7 @@ func (account *Account) Prepare() error {
 	account.ID = uuid.NewV4().String()
 	account.Secret = string(secret)
 
-	account.Cpf = validation.Clean(account.Cpf)
-
-	fmt.Println("cpf: ", account.Cpf)
+	account.Cpf = validation.Format(account.Cpf)
 
 	err = account.validate()
 
