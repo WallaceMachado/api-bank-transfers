@@ -14,8 +14,10 @@ API, que responde JSON, de transferencia entre contas Internas de um banco digit
 
 * <p><a href="#pré-requisitos">Pré Requisitos</a> </p>
 * <p><a href="#iniciando-projeto">Iniciando Projeto</a></p>
-* <p><a href="#variáveis-de--ambiente">Variáveis de Ambiente</a></p>
+* <p><a href="#variáveis-de-ambiente">Variáveis de Ambiente</a></p>
 * <p><a href="#rotas">Rotas</a></p>
+* <p><a href="#controle-de-versão">Controle de versão</a></p>
+* <p><a href="#testes">Testes</a></p>
 * <p><a href="#autor">Autor</a></p>
 
 
@@ -56,7 +58,13 @@ $ go run main.go
 ### Docker
 
 ```bash
+# Clone este repositório
+$ git clone https://github.com/WallaceMachado/challenge-bravo.git
 
+# Acesse a pasta do projeto no terminal / cmd
+$ cd api-bank-transfers
+
+# Instale as dependências e rode o projeto
 $ docker-compose up --build
 
 ```
@@ -68,16 +76,14 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 
 | Chave  |  Descrição  | Predefinição  |
 | :---: | :---: | :---: | 
-|  HOST |  |   |
-|  PORT |   |   |
-|  DB_HOST |    |   |
-|  DB_PORT |   |    |
-|  DB_SSL_MODE |   |    |
-|  DB_USER |   |    |
-|  DB_NAME |   |    |
-|  DB_PASS |   |    |
-|  DB_TYPE |   |    |
-|  ECRET_KEY_JWT |   |    |
+|  PORT |  Número da porta em que o aplicativo será executado. | 5000  |
+|  DB_HOST |  Host Postgres.  | pg  |
+|  DB_PORT |  Porta Postgres.  |  5432  |
+|  DB_USER |  Usuário Postgres. |    |
+|  DB_NAME |  Nome do banco de dados do aplicativo. |  -  |
+|  DB_PASS |  Senha do Postgres.  |  -   |
+|  DB_TYPE | tipo do banco de dados.  |  postgres  |
+|  SECRET_KEY_JWT | Uma string alfanumérica aleatória. Usado para criar tokens assinados.  |  -   |
 
 
 
@@ -85,11 +91,11 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 
 | Rotas  |  HTTP Method  | Params  |  Descrição  |  Auth Method  |
 | :---: | :---: | :---: | :---: | :---: |
-|  /accounts |  POST |  Body: ``` - ```, ``` - ``` e ``` - ``` |  Crie uma nova moeda |  ❌ |
+|  /accounts |  POST |  Body: ``` name ```, ``` cpf ```, ``` secret ``` e ``` balance ``` |  Crie uma nova moeda |  ❌ |
 |  /accounts |  GET |  -  | Recupere uma lista com todas as contas |  ❌ |
-|  /accounts/:account_id/balance |  GET |  params: ``` account_id ``` |  Consulte o saldo de uma conta |  ❌ |
-|  /login |  POST | -  |  faça login  |  ❌ |
-|  /transfers |  POST |  Body: ``` - ```, ``` - ``` e ``` - ```  |  faça uma transferência bancária |  Bearer |
+|  /accounts/:account_id/balance |  GET |  Params: ``` account_id ``` |  Consulte o saldo de uma conta |  ❌ |
+|  /login |  POST | -  |  Faça login  |  ❌ |
+|  /transfers |  POST |  Body: ``` account_destination_id ``` e ``` amount ```   |  Faça uma transferência bancária |  Bearer |
 |  /transfers |  GET |  -  |  Consulte as transferências de uma conta |  Bearer |
 
 Rotas com Bearer como método de autenticação esperam um cabeçalho de autorização. Consulte a seção [Bearer Token](#bearer-token) para mais informações.
@@ -105,6 +111,24 @@ Algumas rotas esperam um Bearer Token em um cabeçalho de autorização.
 GET http://localhost:5000/v1/transfers Authorization: Bearer <token>
 ```
 >Para obter este token, você só precisa se autenticar por meio da rota ``` /login ``` e ela retornará a chave do token com um Bearer Token válido
+
+## Controle de versão
+Para contrele de versão, foi inserida a versão ``` v1 ``` após o  ``` host ```
+
+```
+GET http://localhost:5000/v1/transfers
+
+```
+
+## Testes
+Para executar os testes :
+
+```bash
+  
+  $ go test ./...
+  
+```
+
 
 
 ## Autor
