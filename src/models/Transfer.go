@@ -22,7 +22,23 @@ func init() {
 	govalidator.SetFieldsRequiredByDefault(true)
 }
 
-func (transfer *Transfer) Prepare() error {
+func NewTransfer(account_origin_id string, account_destination_idt string, amount float64) (*Transfer, error) {
+	transfer := &Transfer{
+		Account_origin_id:      account_origin_id,
+		Account_destination_id: account_destination_idt,
+		Amount:                 amount,
+	}
+
+	err := transfer.prepare()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return transfer, nil
+}
+
+func (transfer *Transfer) prepare() error {
 	transfer.ID = uuid.NewV4().String()
 
 	err := transfer.validate()

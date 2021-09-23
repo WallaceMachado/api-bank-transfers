@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 )
@@ -52,9 +54,8 @@ func (repository AccountRepository) GetAccountByCpf(cpf string) (models.Account,
 
 	var account models.Account
 
-	err := db.Where("cpf =?", cpf).First(&account).Error
-
-	if err != nil && err.Error() != "record not found" {
+	if err := db.Where("cpf =?", cpf).First(&account).Error; err != nil && err.Error() != "record not found" {
+		fmt.Println(err.Error())
 		return models.Account{}, err
 	}
 

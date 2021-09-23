@@ -20,43 +20,37 @@ func NewTransferService(repoAcc interfaces.IAccountRepository, repoTransfer inte
 	}
 }
 
-func (s *TransferService) CreateTransfer(transfer models.Transfer) (models.Transfer, error) {
+func (s *TransferService) CreateTransfer(transfer *models.Transfer) (*models.Transfer, error) {
 
-	account_origin, err := s.repositoryAccount.GetAccountById(transfer.Account_origin_id)
-	if err != nil {
-		return models.Transfer{}, err
-	}
+	account_origin, _ := s.repositoryAccount.GetAccountById(transfer.Account_origin_id)
 
-	account_destination, err := s.repositoryAccount.GetAccountById(transfer.Account_destination_id)
-	if err != nil {
-		return models.Transfer{}, err
-	}
+	account_destination, _ := s.repositoryAccount.GetAccountById(transfer.Account_destination_id)
 
 	if len(account_destination.ID) == 0 || len(account_origin.ID) == 0 {
-		return models.Transfer{}, errors.New("account not found")
+		return &models.Transfer{}, errors.New("Account not found")
 	}
 
 	if account_origin.Balance < transfer.Amount {
-		return models.Transfer{}, errors.New("insufficient balance")
+		return &models.Transfer{}, errors.New("Insufficient balance")
 	}
 
 	newTransfer, err := s.repositoryTransfer.SaveTransfer(transfer)
 	if err != nil {
-		return models.Transfer{}, err
+		return &models.Transfer{}, err
 	}
 
 	account_origin.Balance = account_origin.Balance - transfer.Amount
 
 	_, err = s.repositoryAccount.UpdateBalanceAccount(account_origin)
 	if err != nil {
-		return models.Transfer{}, err
+		return &models.Transfer{}, err
 	}
 
 	account_destination.Balance = account_destination.Balance + transfer.Amount
 
 	_, err = s.repositoryAccount.UpdateBalanceAccount(account_destination)
 	if err != nil {
-		return models.Transfer{}, err
+		return &models.Transfer{}, err
 	}
 
 	return newTransfer, nil

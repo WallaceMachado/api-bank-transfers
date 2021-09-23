@@ -21,7 +21,7 @@ func TestLogin(t *testing.T) {
 	defer database.CloseConn()
 
 	//cpf gerado aleatoriamente no site: https://www.4devs.com.br/gerador_de_cpf
-	cpf := "27714197005"
+	cpf := "71844473015"
 	secret := "123456"
 
 	account, _ := models.NewAccount("teste", cpf, secret, 1000)

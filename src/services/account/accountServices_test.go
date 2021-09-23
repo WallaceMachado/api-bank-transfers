@@ -18,6 +18,7 @@ func TestCreateAccount(t *testing.T) {
 	db := database.GetDatabase()
 	defer database.CloseConn()
 
+	//cpf gerado aleatoriamente no site: https://www.4devs.com.br/gerador_de_cpf
 	account, err := models.NewAccount("teste", "27714197005", "123456", 1000)
 
 	repository := &repositories.AccountRepository{}

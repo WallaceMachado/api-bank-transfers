@@ -8,12 +8,12 @@ import (
 type TransferRepository struct {
 }
 
-func (repository TransferRepository) SaveTransfer(transfer models.Transfer) (models.Transfer, error) {
+func (repository TransferRepository) SaveTransfer(transfer *models.Transfer) (*models.Transfer, error) {
 	db := database.GetDatabase()
 	err := db.Create(&transfer).Error
 
 	if err != nil {
-		return transfer, err
+		return &models.Transfer{}, err
 	}
 
 	return transfer, nil

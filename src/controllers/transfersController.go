@@ -6,13 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
-	"github.com/wallacemachado/api-bank-transfers/src/services"
+	services "github.com/wallacemachado/api-bank-transfers/src/services/transfer"
+	"github.com/wallacemachado/api-bank-transfers/src/utils/dtos"
 )
 
 func CreateTransfer(c *gin.Context) {
 
 	account_origin_id, _ := c.Get("accountId")
-	var transfer models.Transfer
+	var transfer dtos.CreateTransferDTO
 
 	err := c.ShouldBindJSON(&transfer)
 	if err != nil {
@@ -25,7 +26,8 @@ func CreateTransfer(c *gin.Context) {
 
 	transfer.Account_origin_id = account_origin_id.(string)
 
-	if err = transfer.Prepare(); err != nil {
+	newTransfer, err := models.NewTransfer(transfer.Account_origin_id, transfer.Account_destination_id, transfer.Amount)
+	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
@@ -38,7 +40,7 @@ func CreateTransfer(c *gin.Context) {
 
 	service := services.NewTransferService(repoAcc, repoTransfer)
 
-	result, err := service.CreateTransfer(transfer)
+	result, err := service.CreateTransfer(newTransfer)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),

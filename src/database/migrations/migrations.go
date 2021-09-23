@@ -13,7 +13,7 @@ func RunAutoMigrations(db *gorm.DB) {
 }
 
 func DeleteTablesTestDb(db *gorm.DB) {
-	db.Migrator().DropTable(&models.Account{})
+	db.Migrator().DropTable(&models.Transfer{})
 	db.Migrator().DropTable(&models.Account{})
 
 }
