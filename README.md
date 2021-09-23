@@ -77,7 +77,7 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 | Chave  |  Descrição  | Predefinição  |
 | :---: | :---: | :---: | 
 |  PORT |  Número da porta em que o aplicativo será executado. | 5000  |
-|  DB_HOST |  Host Postgres.  | pg  |
+|  DB_HOST |  Host Postgres.  | db  |
 |  DB_PORT |  Porta Postgres.  |  5432  |
 |  DB_USER |  Usuário Postgres. |    |
 |  DB_NAME |  Nome do banco de dados do aplicativo. |  -  |
