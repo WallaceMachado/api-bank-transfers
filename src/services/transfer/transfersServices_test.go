@@ -6,8 +6,8 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/wallacemachado/api-bank-transfers/src/config"
 	"github.com/wallacemachado/api-bank-transfers/src/database"
-	"github.com/wallacemachado/api-bank-transfers/src/database/migrations"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	servicesAccount "github.com/wallacemachado/api-bank-transfers/src/services/account"
@@ -15,12 +15,16 @@ import (
 	"github.com/wallacemachado/api-bank-transfers/src/utils/dtos"
 )
 
+func createTestDB() {
+	config.Init()
+	db := database.StartDatabase(config.DBName)
+	db.Exec("DROP DATABASE IF EXISTS test;")
+	db.Exec("CREATE DATABASE test;")
+
+}
 func TestLogin(t *testing.T) {
-
+	createTestDB()
 	database.StartDatabase("test")
-
-	db := database.GetDatabase()
-
 	defer database.CloseConn()
 
 	repositoryAccount := &repositories.AccountRepository{}
@@ -90,7 +94,5 @@ func TestLogin(t *testing.T) {
 	require.Error(t, err)
 	require.EqualError(t, err, "Insufficient balance")
 	assert.Empty(t, result.ID)
-
-	migrations.DeleteTablesTestDb(db)
 
 }

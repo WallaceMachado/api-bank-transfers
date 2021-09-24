@@ -40,7 +40,7 @@ func (repository AccountRepository) GetAccountById(id string) (models.Account, e
 
 	var account models.Account
 
-	err := db.Where("id =?", id).First(&account).Error
+	err := db.Where("id =?", id).Find(&account).Error
 
 	if err != nil {
 		return models.Account{}, err
@@ -54,7 +54,7 @@ func (repository AccountRepository) GetAccountByCpf(cpf string) (models.Account,
 
 	var account models.Account
 
-	if err := db.Where("cpf =?", cpf).First(&account).Error; err != nil && err.Error() != "record not found" {
+	if err := db.Where("cpf =?", cpf).Find(&account).Error; err != nil && err.Error() != "record not found" {
 		fmt.Println(err.Error())
 		return models.Account{}, err
 	}

@@ -40,9 +40,9 @@ func StartDatabase(dbName string) *gorm.DB {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, DbSSlMode, DbPass)
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	fmt.Println("Could not connect to the Postgres Database1")
+
 	if err != nil {
-		fmt.Println("Could not connect to the Postgres Database2")
+
 		log.Fatal("Error: ", err)
 	}
 
@@ -51,10 +51,6 @@ func StartDatabase(dbName string) *gorm.DB {
 	database.DB()
 
 	migrations.RunAutoMigrations(db)
-
-	if dbName != "test" {
-		db.Exec("CREATE DATABASE test")
-	}
 
 	fmt.Println("Connect to Database!")
 

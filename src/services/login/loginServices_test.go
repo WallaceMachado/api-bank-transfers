@@ -6,18 +6,25 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/wallacemachado/api-bank-transfers/src/config"
 	"github.com/wallacemachado/api-bank-transfers/src/database"
-	"github.com/wallacemachado/api-bank-transfers/src/database/migrations"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	servicesAccount "github.com/wallacemachado/api-bank-transfers/src/services/account"
 	servicesLogin "github.com/wallacemachado/api-bank-transfers/src/services/login"
 )
 
-func TestLogin(t *testing.T) {
+func createTestDB() {
+	config.Init()
+	db := database.StartDatabase(config.DBName)
+	db.Exec("DROP DATABASE IF EXISTS test;")
+	db.Exec("CREATE DATABASE test;")
 
+}
+
+func TestLogin(t *testing.T) {
+	createTestDB()
 	database.StartDatabase("test")
-	db := database.GetDatabase()
 	defer database.CloseConn()
 
 	//cpf gerado aleatoriamente no site: https://www.4devs.com.br/gerador_de_cpf
@@ -50,7 +57,5 @@ func TestLogin(t *testing.T) {
 	result, err = serviceLogin.Login(newLoginInvalidSecret)
 	require.Error(t, err)
 	assert.Empty(t, result.Token)
-
-	migrations.DeleteTablesTestDb(db)
 
 }
