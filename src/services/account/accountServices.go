@@ -21,7 +21,7 @@ func NewAccountService(repo interfaces.IAccountRepository) *AccountService {
 func (s *AccountService) CreateAccount(acc *models.Account) (string, error) {
 
 	account, err := s.repository.GetAccountByCpf(acc.Cpf)
-	fmt.Println(err)
+	fmt.Println("cpf: ", err)
 	if err != nil {
 		return "", err
 	}

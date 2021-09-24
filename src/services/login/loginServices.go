@@ -31,7 +31,7 @@ func (s *LoginService) Login(login *models.Login) (responses.ResponseLogin, erro
 		return responses.ResponseLogin{}, errors.New("Invalid CPF or secret")
 	}
 
-	err = security.IsCorrectSecret(account.Secret, login.Secret)
+	err = security.ValidateSecret(account.Secret, login.Secret)
 	if err != nil {
 		return responses.ResponseLogin{}, errors.New("Invalid CPF or secret")
 	}

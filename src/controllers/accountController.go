@@ -24,7 +24,13 @@ func CreateAccount(c *gin.Context) {
 	}
 
 	account, err := models.NewAccount(createAccountDTO.Name, createAccountDTO.Cpf, createAccountDTO.Secret, createAccountDTO.Balance)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
 
+		return
+	}
 	repository := &repositories.AccountRepository{}
 
 	service := services.NewAccountService(repository)

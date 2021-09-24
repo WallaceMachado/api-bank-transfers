@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -69,10 +70,11 @@ func (account *Account) Prepare() error {
 func (account *Account) validate() error {
 
 	cpf, err := validation.ValidateCPF(account.Cpf)
+	fmt.Println("cpf: ", err)
 	if err != nil {
 		return errors.New("invalid CPF")
 	}
-
+	fmt.Println("cpf: ", cpf)
 	account.Cpf = cpf
 
 	_, err = govalidator.ValidateStruct(account)
