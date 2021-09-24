@@ -108,7 +108,6 @@ func TestCreateTransfer(t *testing.T) {
 }
 
 func TestListAllTransfersByAccount(t *testing.T) {
-
 	createTestDB()
 	database.StartDatabase("test")
 	defer database.CloseConn()

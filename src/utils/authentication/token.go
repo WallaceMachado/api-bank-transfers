@@ -44,7 +44,7 @@ func ValidateToken(c *gin.Context) (string, error) {
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 
-			return nil, fmt.Errorf("Método de assinatura inesperado! %v", t.Header["alg"])
+			return nil, fmt.Errorf("Unexpected signature method %v", t.Header["alg"])
 		}
 		return []byte(config.SecretKeyJwt), nil
 	})

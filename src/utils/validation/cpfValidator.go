@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-var (
-	cpfFirstDigitTable  = []int{10, 9, 8, 7, 6, 5, 4, 3, 2}
-	cpfSecondDigitTable = []int{11, 10, 9, 8, 7, 6, 5, 4, 3, 2}
-)
-
 func Format(s string) string {
 	s = strings.TrimSpace(s)
 	s = strings.Replace(s, ".", "", -1)
@@ -21,9 +16,9 @@ func Format(s string) string {
 	return s
 }
 
-func ValidateCPF(cpf string) error {
-	newCpf := Format(cpf)
-	if len(newCpf) != 11 || cpf == "00000000000" ||
+func ValidateCPF(cpfIn string) (string, error) {
+	cpf := Format(cpfIn)
+	if len(cpf) != 11 || cpf == "00000000000" ||
 		cpf == "11111111111" ||
 		cpf == "22222222222" ||
 		cpf == "33333333333" ||
@@ -33,13 +28,16 @@ func ValidateCPF(cpf string) error {
 		cpf == "77777777777" ||
 		cpf == "88888888888" ||
 		cpf == "99999999999" {
-		return errors.New("invalid cpf")
+		return "", errors.New("invalid CPF")
 	}
 
-	firstPart := newCpf[0:9]
+	cpfFirstDigitTable := []int{10, 9, 8, 7, 6, 5, 4, 3, 2}
+	cpfSecondDigitTable := []int{11, 10, 9, 8, 7, 6, 5, 4, 3, 2}
+
+	firstPart := cpf[0:9]
 	sum, err := sumDigit(firstPart, cpfFirstDigitTable)
 	if err != nil {
-		return errors.New("invalid cpf")
+		return "", errors.New("invalid CPF")
 	}
 	r1 := sum % 11
 	d1 := 0
@@ -52,7 +50,7 @@ func ValidateCPF(cpf string) error {
 
 	dsum, err := sumDigit(secondPart, cpfSecondDigitTable)
 	if err != nil {
-		return errors.New("invalid cpf")
+		return "", errors.New("invalid CPF")
 	}
 
 	r2 := dsum % 11
@@ -65,16 +63,16 @@ func ValidateCPF(cpf string) error {
 	finalPart := fmt.Sprintf("%s%d%d", firstPart, d1, d2)
 
 	if finalPart != cpf {
-		return errors.New("invalid cpf")
+		return "", errors.New("invalid CPF")
 	}
 
-	return nil
+	return cpf, nil
 }
 
 func sumDigit(s string, table []int) (int, error) {
 
 	if len(s) != len(table) {
-		return 0, errors.New("invalid cpf")
+		return 0, errors.New("invalid CPF")
 	}
 
 	sum := 0
