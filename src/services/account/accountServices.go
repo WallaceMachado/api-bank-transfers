@@ -45,6 +45,10 @@ func (s *AccountService) GetBalance(id string) (float64, error) {
 		return 0, err
 	}
 
+	if account.Cpf == "" {
+		return 0, errors.New("Non-existent account")
+	}
+
 	balance := account.Balance
 
 	return balance, nil

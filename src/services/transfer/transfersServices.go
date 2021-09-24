@@ -5,7 +5,6 @@ import (
 
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories/interfaces"
-	"github.com/wallacemachado/api-bank-transfers/src/responses"
 )
 
 type TransferService struct {
@@ -22,12 +21,22 @@ func NewTransferService(repoAcc interfaces.IAccountRepository, repoTransfer inte
 
 func (s *TransferService) CreateTransfer(transfer *models.Transfer) (*models.Transfer, error) {
 
-	account_origin, _ := s.repositoryAccount.GetAccountById(transfer.Account_origin_id)
+	account_origin, err := s.repositoryAccount.GetAccountById(transfer.Account_origin_id)
+	if err != nil {
+		return &models.Transfer{}, err
+	}
 
-	account_destination, _ := s.repositoryAccount.GetAccountById(transfer.Account_destination_id)
+	if len(account_origin.ID) == 0 {
+		return &models.Transfer{}, errors.New("Origin account not found")
+	}
 
-	if len(account_destination.ID) == 0 || len(account_origin.ID) == 0 {
-		return &models.Transfer{}, errors.New("Account not found")
+	account_destination, err := s.repositoryAccount.GetAccountById(transfer.Account_destination_id)
+	if err != nil {
+		return &models.Transfer{}, err
+	}
+
+	if len(account_destination.ID) == 0 {
+		return &models.Transfer{}, errors.New("Destination account not found")
 	}
 
 	if account_origin.Balance < transfer.Amount {
@@ -57,24 +66,22 @@ func (s *TransferService) CreateTransfer(transfer *models.Transfer) (*models.Tra
 
 }
 
-func (s *TransferService) ListAllTransfersByAccount(id string) (responses.ResponseTransfersByAccount, error) {
+func (s *TransferService) ListAllTransfersByAccount(id string) ([]models.Transfer, error) {
+
+	account, err := s.repositoryAccount.GetAccountById(id)
+	if err != nil {
+		return []models.Transfer{}, err
+	}
+
+	if len(account.ID) == 0 {
+		return []models.Transfer{}, errors.New("Account not found")
+	}
 
 	transfers, err := s.repositoryTransfer.GetTransfersById(id)
 	if err != nil {
-		return responses.ResponseTransfersByAccount{}, err
+		return []models.Transfer{}, err
 	}
 
-	var transferResponse responses.ResponseTransfersByAccount
-
-	for _, t := range transfers {
-		if t.Account_origin_id == id {
-			transferResponse.TranfersSent = append(transferResponse.TranfersSent, t)
-		} else {
-
-			transferResponse.TranfersReceived = append(transferResponse.TranfersReceived, t)
-		}
-	}
-
-	return transferResponse, nil
+	return transfers, nil
 
 }

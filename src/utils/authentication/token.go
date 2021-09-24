@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/wallacemachado/api-bank-transfers/src/config"
 )
 

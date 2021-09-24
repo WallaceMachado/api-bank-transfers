@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
+	"github.com/wallacemachado/api-bank-transfers/src/responses"
 	services "github.com/wallacemachado/api-bank-transfers/src/services/transfer"
 	"github.com/wallacemachado/api-bank-transfers/src/utils/dtos"
 )
@@ -71,5 +72,16 @@ func ListAllTransfersByAccount(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	var transferResponse responses.ResponseTransfersByAccount
+
+	for _, t := range result {
+		if t.Account_origin_id == id {
+			transferResponse.TranfersSent = append(transferResponse.TranfersSent, t)
+		} else {
+
+			transferResponse.TranfersReceived = append(transferResponse.TranfersReceived, t)
+		}
+	}
+
+	c.JSON(http.StatusOK, transferResponse)
 }

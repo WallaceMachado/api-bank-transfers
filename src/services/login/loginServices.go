@@ -1,6 +1,8 @@
 package services
 
 import (
+	"errors"
+
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories/interfaces"
 	"github.com/wallacemachado/api-bank-transfers/src/responses"
@@ -25,9 +27,13 @@ func (s *LoginService) Login(login *models.Login) (responses.ResponseLogin, erro
 		return responses.ResponseLogin{}, err
 	}
 
+	if account.Cpf == "" {
+		return responses.ResponseLogin{}, errors.New("Invalid CPF or secret")
+	}
+
 	err = security.IsCorrectSecret(account.Secret, login.Secret)
 	if err != nil {
-		return responses.ResponseLogin{}, err
+		return responses.ResponseLogin{}, errors.New("Invalid CPF or secret")
 	}
 
 	token, err := authentication.GenerateToken(account.ID)

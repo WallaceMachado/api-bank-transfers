@@ -1,7 +1,6 @@
 package services_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -41,21 +40,29 @@ func TestLogin(t *testing.T) {
 
 	serviceLogin := servicesLogin.NewLoginService(repositoryAccount)
 
-	newLogin, _ := models.NewLogin(cpf, secret)
+	t.Run("Success", func(t *testing.T) {
+		newLogin, _ := models.NewLogin(cpf, secret)
 
-	result, err := serviceLogin.Login(newLogin)
-	require.Nil(t, err)
-	assert.NotEmpty(t, result.Token)
-	fmt.Println(result.Token)
+		result, err := serviceLogin.Login(newLogin)
+		require.Nil(t, err)
+		assert.NotEmpty(t, result.Token)
 
-	newLoginInvalidAccount, _ := models.NewLogin("12312312312", secret)
-	result, err = serviceLogin.Login(newLoginInvalidAccount)
-	require.Error(t, err)
-	assert.Empty(t, result.Token)
+	})
 
-	newLoginInvalidSecret, _ := models.NewLogin(cpf, "123457")
-	result, err = serviceLogin.Login(newLoginInvalidSecret)
-	require.Error(t, err)
-	assert.Empty(t, result.Token)
+	t.Run("Error: Non-existent CPF", func(t *testing.T) {
+		newLoginInvalidAccount, _ := models.NewLogin("12312312312", secret)
+		result, err := serviceLogin.Login(newLoginInvalidAccount)
+		require.Error(t, err)
+		assert.Empty(t, result.Token)
+		assert.EqualError(t, err, "Invalid CPF or secret")
+	})
+
+	t.Run("Error: invalid secret", func(t *testing.T) {
+		newLoginInvalidSecret, _ := models.NewLogin(cpf, "123457")
+		result, err := serviceLogin.Login(newLoginInvalidSecret)
+		require.Error(t, err)
+		assert.Empty(t, result.Token)
+		assert.EqualError(t, err, "Invalid CPF or secret")
+	})
 
 }
