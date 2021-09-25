@@ -53,7 +53,7 @@ func (transfer *Transfer) prepare() error {
 func (transfer *Transfer) validate() error {
 
 	if transfer.Amount < 1 || transfer.Amount > 5000 {
-		return errors.New("The amount must be between 1 and 5000")
+		return errors.New("The amount must be between R$1 and R$5000")
 	}
 
 	if transfer.Account_destination_id == transfer.Account_origin_id {
