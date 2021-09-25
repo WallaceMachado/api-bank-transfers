@@ -20,13 +20,13 @@ func TestSecurity(t *testing.T) {
 	})
 
 	t.Run("ValidateSecret: success", func(t *testing.T) {
-		err := security.ValidateSecret(secretHash, secret)
+		err := security.ValidateSecretHash(secretHash, secret)
 		require.Error(t, err)
 
 	})
 
 	t.Run("ValidateSecret: error", func(t *testing.T) {
-		err := security.ValidateSecret(secretHash, "secret invalid")
+		err := security.ValidateSecretHash(secretHash, "secret invalid")
 		require.Error(t, err)
 
 	})

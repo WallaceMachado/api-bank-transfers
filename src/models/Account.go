@@ -7,6 +7,7 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
+	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
 	utils "github.com/wallacemachado/api-bank-transfers/src/utils/security"
 	"github.com/wallacemachado/api-bank-transfers/src/utils/validation"
 )
@@ -43,9 +44,9 @@ func NewAccount(name string, cpf string, secret string, balance float64) (*Accou
 
 func (account *Account) prepare() error {
 
-	if len(account.Secret) < 6 || len(account.Secret) > 32 {
-
-		return errors.New("The secret must be between 6 and 32 characters.")
+	err := security.ValidateSecretString(account.Secret)
+	if err != nil {
+		return err
 	}
 
 	secret, err := utils.Hash(account.Secret)

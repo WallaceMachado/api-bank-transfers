@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
 	"github.com/wallacemachado/api-bank-transfers/src/utils/validation"
 )
 
@@ -23,8 +24,6 @@ func NewLogin(cpf string, secret string) (*Login, error) {
 		Secret: secret,
 	}
 
-	login.Cpf = validation.Format(login.Cpf)
-
 	err := login.validate()
 
 	if err != nil {
@@ -36,17 +35,19 @@ func NewLogin(cpf string, secret string) (*Login, error) {
 
 func (login *Login) validate() error {
 
-	if len(login.Secret) < 6 || len(login.Secret) > 12 {
-
-		return errors.New("The secret must be between 6 and 12 characters.")
+	cpf, err := validation.ValidateCPF(login.Cpf)
+	if err != nil {
+		return errors.New("Invalid CPF or secret")
 	}
 
-	if len(login.Cpf) != 11 {
+	login.Cpf = cpf
 
-		return errors.New("Invalid CPF")
+	err = security.ValidateSecretString(login.Secret)
+	if err != nil {
+		return errors.New("Invalid CPF or secret")
 	}
 
-	_, err := govalidator.ValidateStruct(login)
+	_, err = govalidator.ValidateStruct(login)
 
 	if err != nil {
 		return err
