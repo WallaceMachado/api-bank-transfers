@@ -2,7 +2,7 @@ package models
 
 import (
 	"errors"
-	"fmt"
+	"strings"
 	"time"
 
 	"github.com/asaskevich/govalidator"
@@ -32,7 +32,7 @@ func NewAccount(name string, cpf string, secret string, balance float64) (*Accou
 		Balance: balance,
 	}
 
-	err := account.Prepare()
+	err := account.prepare()
 
 	if err != nil {
 		return nil, err
@@ -41,11 +41,11 @@ func NewAccount(name string, cpf string, secret string, balance float64) (*Accou
 	return account, nil
 }
 
-func (account *Account) Prepare() error {
+func (account *Account) prepare() error {
 
-	if len(account.Secret) < 6 || len(account.Secret) > 12 {
+	if len(account.Secret) < 6 || len(account.Secret) > 32 {
 
-		return errors.New("The secret must be between 6 and 12 characters.")
+		return errors.New("The secret must be between 6 and 32 characters.")
 	}
 
 	secret, err := utils.Hash(account.Secret)
@@ -56,6 +56,8 @@ func (account *Account) Prepare() error {
 
 	account.ID = uuid.NewV4().String()
 	account.Secret = string(secret)
+
+	account.Name = strings.TrimSpace(account.Name)
 
 	err = account.validate()
 
@@ -70,12 +72,22 @@ func (account *Account) Prepare() error {
 func (account *Account) validate() error {
 
 	cpf, err := validation.ValidateCPF(account.Cpf)
-	fmt.Println("cpf: ", err)
+
 	if err != nil {
 		return errors.New("invalid CPF")
 	}
-	fmt.Println("cpf: ", cpf)
+
 	account.Cpf = cpf
+
+	if len(account.Name) < 3 || len(account.Name) > 100 {
+
+		return errors.New("The name must be between 3 and 100 characters.")
+	}
+
+	if account.Balance < 1 {
+
+		return errors.New("Initial balance must be at least R$1")
+	}
 
 	_, err = govalidator.ValidateStruct(account)
 

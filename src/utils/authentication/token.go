@@ -24,6 +24,7 @@ func getToken(c *gin.Context) (string, error) {
 
 	const Bearer_schema = "Bearer "
 	header := c.GetHeader("Authorization")
+
 	if header == "" {
 		return "", errors.New("non-existent token!!")
 	}
