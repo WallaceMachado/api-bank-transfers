@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	"github.com/asaskevich/govalidator"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/validation"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/security"
+	validation "github.com/wallacemachado/api-bank-transfers/src/shared/utils"
 )
 
 type Login struct {

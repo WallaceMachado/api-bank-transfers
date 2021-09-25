@@ -5,12 +5,12 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/wallacemachado/api-bank-transfers/src/config"
-	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	servicesAccount "github.com/wallacemachado/api-bank-transfers/src/services/account"
 	servicesLogin "github.com/wallacemachado/api-bank-transfers/src/services/login"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/config"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/database"
 )
 
 func createTestDB() {
@@ -42,15 +42,13 @@ func TestLogin(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T) {
 		newLogin, _ := models.NewLogin(cpf, secret)
-
 		result, err := serviceLogin.Login(newLogin)
 		require.Nil(t, err)
 		assert.NotEmpty(t, result.Token)
-
 	})
 
 	t.Run("Error: Non-existent CPF", func(t *testing.T) {
-		newLoginInvalidAccount, _ := models.NewLogin("12312312312", secret)
+		newLoginInvalidAccount, err := models.NewLogin("856.629.030-50", secret)
 		result, err := serviceLogin.Login(newLoginInvalidAccount)
 		require.Error(t, err)
 		assert.Empty(t, result.Token)

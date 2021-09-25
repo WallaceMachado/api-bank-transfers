@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/authentication"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/authentication"
 )
 
 func Auth() gin.HandlerFunc {

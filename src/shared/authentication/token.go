@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v4"
-	"github.com/wallacemachado/api-bank-transfers/src/config"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/config"
 )
 
 func GenerateToken(id string) (string, error) {

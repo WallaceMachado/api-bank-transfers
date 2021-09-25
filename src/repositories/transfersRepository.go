@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/database"
 )
 
 type TransferRepository struct {

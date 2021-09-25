@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/wallacemachado/api-bank-transfers/src/config"
 	"github.com/wallacemachado/api-bank-transfers/src/server/routes"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/config"
 )
 
 type Server struct {

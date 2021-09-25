@@ -7,9 +7,9 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
-	utils "github.com/wallacemachado/api-bank-transfers/src/utils/security"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/validation"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/security"
+	utils "github.com/wallacemachado/api-bank-transfers/src/shared/security"
+	validation "github.com/wallacemachado/api-bank-transfers/src/shared/utils"
 )
 
 type Account struct {

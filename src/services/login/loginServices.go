@@ -5,9 +5,9 @@ import (
 
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories/interfaces"
-	"github.com/wallacemachado/api-bank-transfers/src/responses"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/authentication"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/authentication"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/responses"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/security"
 )
 
 type LoginService struct {

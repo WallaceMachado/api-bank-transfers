@@ -1,4 +1,4 @@
-package validation_test
+package utils_test
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/validation"
+	validation "github.com/wallacemachado/api-bank-transfers/src/shared/utils"
 )
 
 func TestValidateCPF(t *testing.T) {

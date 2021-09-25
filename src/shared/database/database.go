@@ -7,8 +7,8 @@ import (
 	"runtime"
 
 	"github.com/joho/godotenv"
-	"github.com/wallacemachado/api-bank-transfers/src/config"
-	"github.com/wallacemachado/api-bank-transfers/src/database/migrations"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/config"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/database/migrations"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -20,7 +20,7 @@ func init() {
 	_, b, _, _ := runtime.Caller(0)
 	basepath := filepath.Dir(b)
 
-	err := godotenv.Load(basepath + "/../../.env")
+	err := godotenv.Load(basepath + "/../../../.env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env files")
@@ -29,7 +29,7 @@ func init() {
 
 func StartDatabase(dbName string) *gorm.DB {
 	config.Init()
-	fmt.Println("Could not connect to the Postgres Database")
+
 	DbHost := config.DBHost
 	DbPort := config.DBPort
 	DbUser := config.DBUser

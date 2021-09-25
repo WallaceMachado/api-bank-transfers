@@ -3,8 +3,8 @@ package repositories
 import (
 	"fmt"
 
-	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/database"
 )
 
 type AccountRepository struct {

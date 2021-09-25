@@ -1,4 +1,4 @@
-package validation
+package utils
 
 // validação feita com base no site da receita federal http://www.receita.fazenda.gov.br/aplicacoes/atcta/cpf/funcoes.js
 import (

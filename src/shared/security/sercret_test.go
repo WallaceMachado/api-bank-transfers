@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/security"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/security"
 )
 
 func TestSecurity(t *testing.T) {

@@ -6,11 +6,11 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/wallacemachado/api-bank-transfers/src/config"
-	"github.com/wallacemachado/api-bank-transfers/src/database"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
 	services "github.com/wallacemachado/api-bank-transfers/src/services/account"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/config"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/database"
 )
 
 func createTestDB() {

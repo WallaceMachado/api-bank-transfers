@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories"
-	"github.com/wallacemachado/api-bank-transfers/src/responses"
 	services "github.com/wallacemachado/api-bank-transfers/src/services/transfer"
-	"github.com/wallacemachado/api-bank-transfers/src/utils/dtos"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/dtos"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/responses"
 )
 
 func CreateTransfer(c *gin.Context) {
