@@ -7,5 +7,5 @@ type IAccountRepository interface {
 	GetAllAccounts() ([]models.Account, error)
 	GetAccountById(id string) (models.Account, error)
 	GetAccountByCpf(cpf string) (models.Account, error)
-	UpdateBalanceAccount(account models.Account) (models.Account, error)
+	UpdateAccount(account models.Account) (models.Account, error)
 }

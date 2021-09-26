@@ -62,7 +62,7 @@ func (repository AccountRepository) GetAccountByCpf(cpf string) (models.Account,
 	return account, nil
 }
 
-func (repository AccountRepository) UpdateBalanceAccount(account models.Account) (models.Account, error) {
+func (repository AccountRepository) UpdateAccount(account models.Account) (models.Account, error) {
 	db := database.GetDatabase()
 
 	err := db.Save(&account).Error

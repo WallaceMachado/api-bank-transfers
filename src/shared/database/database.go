@@ -75,3 +75,7 @@ func CloseConn() error {
 func GetDatabase() *gorm.DB {
 	return db
 }
+
+func SetDatabase(newDb *gorm.DB) {
+	db = newDb
+}

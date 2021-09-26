@@ -50,14 +50,14 @@ func (s *TransferService) CreateTransfer(transfer *models.Transfer) (*models.Tra
 
 	account_origin.Balance = account_origin.Balance - transfer.Amount
 
-	_, err = s.repositoryAccount.UpdateBalanceAccount(account_origin)
+	_, err = s.repositoryAccount.UpdateAccount(account_origin)
 	if err != nil {
 		return &models.Transfer{}, err
 	}
 
 	account_destination.Balance = account_destination.Balance + transfer.Amount
 
-	_, err = s.repositoryAccount.UpdateBalanceAccount(account_destination)
+	_, err = s.repositoryAccount.UpdateAccount(account_destination)
 	if err != nil {
 		return &models.Transfer{}, err
 	}
