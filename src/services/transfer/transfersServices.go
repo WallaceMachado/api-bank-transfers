@@ -43,7 +43,7 @@ func (s *TransferService) CreateTransfer(transfer *models.Transfer) (*models.Tra
 		return &models.Transfer{}, errors.New("Insufficient balance")
 	}
 
-	newTransfer, err := s.repositoryTransfer.SaveTransfer(transfer)
+	newTransfer, err := s.repositoryTransfer.CreateTransfer(transfer)
 	if err != nil {
 		return &models.Transfer{}, err
 	}
@@ -77,7 +77,7 @@ func (s *TransferService) ListAllTransfersByAccount(id string) ([]models.Transfe
 		return []models.Transfer{}, errors.New("Account not found")
 	}
 
-	transfers, err := s.repositoryTransfer.GetTransfersById(id)
+	transfers, err := s.repositoryTransfer.GetTransfersByAccountId(id)
 	if err != nil {
 		return []models.Transfer{}, err
 	}

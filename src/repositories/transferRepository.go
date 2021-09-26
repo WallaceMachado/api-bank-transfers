@@ -8,7 +8,7 @@ import (
 type TransferRepository struct {
 }
 
-func (repository TransferRepository) SaveTransfer(transfer *models.Transfer) (*models.Transfer, error) {
+func (repository TransferRepository) CreateTransfer(transfer *models.Transfer) (*models.Transfer, error) {
 	db := database.GetDatabase()
 	err := db.Create(&transfer).Error
 
@@ -19,7 +19,7 @@ func (repository TransferRepository) SaveTransfer(transfer *models.Transfer) (*m
 	return transfer, nil
 }
 
-func (repository TransferRepository) GetTransfersById(id string) ([]models.Transfer, error) {
+func (repository TransferRepository) GetTransfersByAccountId(id string) ([]models.Transfer, error) {
 	db := database.GetDatabase()
 
 	var transfers []models.Transfer

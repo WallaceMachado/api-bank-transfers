@@ -33,7 +33,6 @@ func NewMock() sqlmock.Sqlmock {
 	}
 
 	database.SetDatabase(gormDB)
-	database.GetDatabase()
 
 	return mock
 }
