@@ -43,6 +43,8 @@ Além disso, é bom ter um editor para trabalhar com o código como: [VSCode](ht
 
 ### Local
 
+Deverá criar o banco de dados com as configurações informadas no arquivo ``` .env ``` DB_USER, DB_NAME, DB_PASS
+
 ```bash
 # Clone este repositório
 $ git clone https://github.com/WallaceMachado/challenge-bravo.git
@@ -79,7 +81,7 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 |  PORT |  Número da porta em que o aplicativo será executado. | 5000  |
 |  DB_HOST |  Host Postgres.  | db  |
 |  DB_PORT |  Porta Postgres.  |  5432  |
-|  DB_USER |  Usuário Postgres. |    |
+|  DB_USER |  Usuário Postgres. |  -  |
 |  DB_NAME |  Nome do banco de dados do aplicativo. |  -  |
 |  DB_PASS |  Senha do Postgres.  |  -   |
 |  DB_TYPE | tipo do banco de dados.  |  postgres  |
@@ -91,7 +93,7 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 
 | Rotas  |  HTTP Method  | Params  |  Descrição  |  Auth Method  |
 | :---: | :---: | :---: | :---: | :---: |
-|  /accounts |  POST |  Body: ``` name ```, ``` cpf ```, ``` secret ``` e ``` balance ``` |  Crie uma nova moeda |  ❌ |
+|  /accounts |  POST |  Body: ``` name ```, ``` cpf ```, ``` secret ``` e ``` balance ``` |  Crie uma nova conta |  ❌ |
 |  /accounts |  GET |  -  | Recupere uma lista com todas as contas |  ❌ |
 |  /accounts/:account_id/balance |  GET |  Params: ``` account_id ``` |  Consulte o saldo de uma conta |  ❌ |
 |  /login |  POST | -  |  Faça login  |  ❌ |
@@ -123,10 +125,47 @@ GET http://localhost:5000/v1/transfers
 ## Testes
 Para executar os testes :
 
+### Local
+
+Altere a varável de ambente DB_HOST para ``` localhost ```
+
 ```bash
+
+  # Acesse a pasta do projeto no terminal / cmd
+  $ cd api-bank-transfers
   
+  # Rode os testes
   $ go test ./...
   
+```
+
+### Docker
+
+
+```bash
+
+    # Acesse a pasta do projeto no terminal / cmd
+    $ cd api-bank-transfers
+
+    # Instale as dependências e rode o projeto
+    $ docker-compose up --build
+
+    # Pegar o CONTNAINER ID  da imagem github.com/wallacemachado/api-bank-transfers
+    $ docker ps
+    # Exemplo de retorno:
+    # CONTAINER ID      IMAGE                                             COMMAND                  
+    # xxxxxxxxxxxxxxx   github.com/wallacemachado/api-bank-transfers      "go run main.go"         0.0.0.0:5003->5000/tcp, :::5003->5003 ....  
+    # yyyyyyyyyyyyyyy   github.com/wallacemachado/api-bank-transfers-db   "docker-entrypoint.s…"   0.0.0.0:5432->5432/tcp, :::5432->5432 ....
+
+    # acesse o contaniner
+    $ docker exec -it <CONTAINER ID> /bin/bash
+    # Exemplo:
+    # docker exec -it xxxxxxxxxxxxxxx /bin/bash
+
+    #root@xxxxxxxxxxxxxxx:/go/src/app# 
+    #rode os testes
+    $ go test ./...
+
 ```
 
 
