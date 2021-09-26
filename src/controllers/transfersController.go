@@ -18,7 +18,7 @@ func CreateTransfer(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&transfer)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": err.Error(),
 		})
 
@@ -29,7 +29,7 @@ func CreateTransfer(c *gin.Context) {
 
 	newTransfer, err := models.NewTransfer(transfer.Account_origin_id, transfer.Account_destination_id, transfer.Amount)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 
@@ -43,7 +43,7 @@ func CreateTransfer(c *gin.Context) {
 
 	result, err := service.CreateTransfer(newTransfer)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 
@@ -65,7 +65,7 @@ func ListAllTransfersByAccount(c *gin.Context) {
 
 	result, err := service.ListAllTransfersByAccount(IdString)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 

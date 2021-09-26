@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/wallacemachado/api-bank-transfers/src/models"
 	"github.com/wallacemachado/api-bank-transfers/src/repositories/interfaces"
@@ -21,8 +20,7 @@ func NewAccountService(repo interfaces.IAccountRepository) *AccountService {
 func (s *AccountService) CreateAccount(acc *models.Account) (string, error) {
 
 	account, err := s.repository.GetAccountByCpf(acc.Cpf)
-	fmt.Println("cpf: ", err)
-	fmt.Println("cpf2: ", account)
+
 	if err != nil {
 		return "", err
 	}

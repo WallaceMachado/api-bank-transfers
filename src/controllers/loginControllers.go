@@ -14,15 +14,15 @@ func Login(c *gin.Context) {
 	var login models.Login
 	err := c.ShouldBindJSON(&login)
 	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "cannot bind JSON: " + err.Error(),
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
 		})
 		return
 	}
 
 	newLogin, err := models.NewLogin(login.Cpf, login.Secret)
 	if err != nil {
-		c.JSON(401, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": err.Error(),
 		})
 

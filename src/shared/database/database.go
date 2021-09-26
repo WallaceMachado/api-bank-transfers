@@ -34,7 +34,7 @@ func StartDatabase(dbName string) *gorm.DB {
 	DbPort := config.DBPort
 	DbUser := config.DBUser
 	DbName := dbName
-	DbSSlMode := config.DBSslMode
+	DbSSlMode := "disable"
 	DbPass := config.DBPass
 
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, DbSSlMode, DbPass)
@@ -42,7 +42,7 @@ func StartDatabase(dbName string) *gorm.DB {
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-
+		fmt.Println("Could not connect to Database")
 		log.Fatal("Error: ", err)
 	}
 

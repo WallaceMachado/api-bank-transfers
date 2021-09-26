@@ -16,7 +16,7 @@ func CreateAccount(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&createAccountDTO)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 
@@ -25,7 +25,7 @@ func CreateAccount(c *gin.Context) {
 
 	account, err := models.NewAccount(createAccountDTO.Name, createAccountDTO.Cpf, createAccountDTO.Secret, createAccountDTO.Balance)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": err.Error(),
 		})
 
@@ -37,7 +37,7 @@ func CreateAccount(c *gin.Context) {
 
 	result, err := service.CreateAccount(account)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 
@@ -58,7 +58,7 @@ func ListAllAccounts(c *gin.Context) {
 
 	result, err := service.ListAllAccounts()
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
@@ -76,7 +76,7 @@ func GetBalance(c *gin.Context) {
 
 	result, err := service.GetBalance(id)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
