@@ -32,7 +32,7 @@ Para rodar via docker
 * [Docker](https://docs.docker.com/)
 
 Para rodar Local
-* [Go](https://golang.org/)
+* [Go](https://golang.org/) versão 1.16.7
 * [Postgres](https://www.postgresql.org/)
 
 Além disso, é bom ter um editor para trabalhar com o código como: [VSCode](https://code.visualstudio.com/)
@@ -79,7 +79,7 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 | Chave  |  Descrição  | Predefinição  |
 | :---: | :---: | :---: | 
 |  PORT |  Número da porta em que o aplicativo será executado. | 5000  |
-|  DB_HOST |  Host Postgres.  | db  |
+|  DB_HOST |  Host Postgres.  | pg  |
 |  DB_PORT |  Porta Postgres.  |  5432  |
 |  DB_USER |  Usuário Postgres. |  -  |
 |  DB_NAME |  Nome do banco de dados do aplicativo. |  -  |
@@ -102,7 +102,46 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 
 Rotas com Bearer como método de autenticação esperam um cabeçalho de autorização. Consulte a seção [Bearer Token](#bearer-token) para mais informações.
 
+### Requisições
+* ``` POST /accounts ```
 
+Corpo da requisição:
+  
+```
+{
+    "name": "teste",
+    "cpf": "31410884031",
+    "secret": "123456",
+    "balance": 1000
+}
+
+```
+
+* ``` POST /login ```
+
+Corpo da requisição:
+  
+```
+{
+    "cpf": "31410884031",
+    "secret": "123456"
+}
+
+```
+
+* ``` POST /transfers ```
+
+Corpo da requisição:
+  
+```
+{
+    "account_destination_id":"4b808c0b-5822-410d-a67d-d87241f03e9d",
+    "amount":100
+}
+
+```
+
+  
 ## Bearer Token
 Algumas rotas esperam um Bearer Token em um cabeçalho de autorização.
 
