@@ -47,7 +47,7 @@ Deverá criar o banco de dados com as configurações informadas no arquivo ``` 
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/WallaceMachado/challenge-bravo.git
+$ git clone https://github.com/WallaceMachado/api-bank-transfers.git
 
 # Acesse a pasta do projeto no terminal / cmd
 $ cd api-bank-transfers
@@ -61,7 +61,7 @@ $ go run main.go
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/WallaceMachado/challenge-bravo.git
+$ git clone https://github.com/WallaceMachado/api-bank-transfers.git
 
 # Acesse a pasta do projeto no terminal / cmd
 $ cd api-bank-transfers
@@ -87,6 +87,13 @@ Após clonar o repositório, renomeie o ``` .env.example ``` no diretório raiz 
 |  DB_TYPE | tipo do banco de dados.  |  postgres  |
 |  SECRET_KEY_JWT | Uma string alfanumérica aleatória. Usado para criar tokens assinados.  |  -   |
 
+## Controle de versão
+Para contrele de versão, foi inserida a versão ``` v1 ``` após o  ``` host ```
+
+```
+GET http://localhost:5000/api/v1/transfers
+
+```
 
 
 ## Rotas
@@ -149,17 +156,10 @@ Algumas rotas esperam um Bearer Token em um cabeçalho de autorização.
 > Você pode ver essas rotas na seção de [Rotas](#rotas).
 
 ```
-GET http://localhost:5000/v1/transfers Authorization: Bearer <token>
+GET http://localhost:5000/api/v1/transfers Authorization: Bearer <token>
 ```
 >Para obter este token, você só precisa se autenticar por meio da rota ``` /login ``` e ela retornará a chave do token com um Bearer Token válido
 
-## Controle de versão
-Para contrele de versão, foi inserida a versão ``` v1 ``` após o  ``` host ```
-
-```
-GET http://localhost:5000/v1/transfers
-
-```
 
 ## Testes
 Para executar os testes :
