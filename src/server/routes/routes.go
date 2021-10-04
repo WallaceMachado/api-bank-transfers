@@ -12,22 +12,22 @@ func Config(router *gin.Engine) *gin.Engine {
 	{
 		accountRouter := main.Group("accounts")
 		{
-			accountRouter.POST("/", controllers.CreateAccount)
-			accountRouter.GET("/", controllers.ListAllAccounts)
+			accountRouter.POST("", controllers.CreateAccount)
+			accountRouter.GET("", controllers.ListAllAccounts)
 			accountRouter.GET("/:account_id/balance", controllers.GetBalance)
 
 		}
 
 		loginRouter := main.Group("login")
 		{
-			loginRouter.POST("/", controllers.Login)
+			loginRouter.POST("", controllers.Login)
 
 		}
 
 		transferRouter := main.Group("transfers", middlewares.Auth())
 		{
-			transferRouter.POST("/", controllers.CreateTransfer)
-			transferRouter.GET("/", controllers.ListAllTransfersByAccount)
+			transferRouter.POST("", controllers.CreateTransfer)
+			transferRouter.GET("", controllers.ListAllTransfersByAccount)
 
 		}
 	}

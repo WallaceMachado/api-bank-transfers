@@ -5,7 +5,7 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	"github.com/wallacemachado/api-bank-transfers/src/shared/security"
-	validation "github.com/wallacemachado/api-bank-transfers/src/shared/utils"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/utils"
 )
 
 type Login struct {
@@ -35,7 +35,7 @@ func NewLogin(cpf string, secret string) (*Login, error) {
 
 func (login *Login) validate() error {
 
-	cpf, err := validation.ValidateCPF(login.Cpf)
+	cpf, err := utils.ValidateCPF(login.Cpf)
 	if err != nil {
 		return errors.New("Invalid CPF or secret")
 	}

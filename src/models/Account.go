@@ -8,8 +8,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
 	"github.com/wallacemachado/api-bank-transfers/src/shared/security"
-	utils "github.com/wallacemachado/api-bank-transfers/src/shared/security"
-	validation "github.com/wallacemachado/api-bank-transfers/src/shared/utils"
+	"github.com/wallacemachado/api-bank-transfers/src/shared/utils"
 )
 
 type Account struct {
@@ -49,7 +48,7 @@ func (account *Account) prepare() error {
 		return err
 	}
 
-	secret, err := utils.Hash(account.Secret)
+	secret, err := security.Hash(account.Secret)
 
 	if err != nil {
 		return err
@@ -72,7 +71,7 @@ func (account *Account) prepare() error {
 
 func (account *Account) validate() error {
 
-	cpf, err := validation.ValidateCPF(account.Cpf)
+	cpf, err := utils.ValidateCPF(account.Cpf)
 
 	if err != nil {
 		return errors.New("invalid CPF")
